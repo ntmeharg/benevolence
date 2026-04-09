@@ -1,0 +1,324 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans,system-ui,sans-serif);background:#f3f2ee;font-size:14px}
+.topbar{background:#fff;border-bottom:0.5px solid #ddd;padding:6px 12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sc-btn{font-size:11px;padding:3px 9px;border-radius:100px;border:0.5px solid #ccc;background:#fff;color:#666;cursor:pointer}
+.sc-btn.on{background:#185FA5;color:#fff;border-color:#185FA5}
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:700px}
+.left{background:#fff;border-right:0.5px solid #e0ddd6;padding:0;display:flex;flex-direction:column}
+.connector-block{padding:.75rem 1rem;border-bottom:0.5px solid #e0ddd6}
+.conn-label{font-size:11px;font-weight:600;color:#888;margin-bottom:.5rem;letter-spacing:.04em;text-transform:uppercase}
+.av-row{display:flex;align-items:center;gap:8px;margin-bottom:.6rem}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.av-blue{background:#185FA5;color:#fff}
+.conn-name{font-size:13px;font-weight:500;color:#222}
+.badge-row{display:flex;gap:4px;flex-wrap:wrap}
+.lbadge{font-size:11px;padding:2px 7px;border-radius:4px;border:0.5px solid #ddd;color:#555;background:#f7f6f2}
+.lbadge.teal{background:#E1F5EE;color:#085041;border-color:#9FE1CB}
+.lbadge.blue{background:#E6F1FB;color:#0C447C;border-color:#B5D4F4}
+.lbadge.amber{background:#FAEEDA;color:#633806;border-color:#FAC775}
+.lbadge.green{background:#EAF3DE;color:#27500A;border-color:#C0DD97}
+.person-img{width:100%;height:120px;background:linear-gradient(180deg,#cfe0ef 0%,#aec8dc 100%);display:flex;align-items:center;justify-content:center}
+.person-info{padding:.65rem 1rem;border-bottom:0.5px solid #e0ddd6}
+.person-name{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+.plink{font-size:12px;color:#185FA5;text-decoration:none}
+.pcontact{font-size:12px;color:#185FA5;margin-top:4px;display:block}
+.pmuted{font-size:11px;color:#999}
+.left-sect{padding:.65rem 1rem;border-bottom:0.5px solid #e0ddd6}
+.ls-title{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
+.ls-val{font-size:13px;color:#222;font-weight:500}
+.ls-sub{font-size:11px;color:#999;margin-top:1px}
+.right{background:#f3f2ee;padding:.75rem;overflow:auto}
+.kanban{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:.75rem}
+.col-hdr{font-size:12px;font-weight:600;color:#444;margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.col-bar{height:3px;border-radius:2px;width:24px;flex-shrink:0}
+.scard{background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;padding:.6rem .7rem;margin-bottom:6px}
+.scard.active{background:#E1F5EE;border-color:#9FE1CB}
+.scard.done{background:#f7f6f2;border-color:#D3D1C7}
+.scard.locked{opacity:.38;pointer-events:none}
+.ctitle{font-size:12px;font-weight:600;margin-bottom:3px;color:#222}
+.ctitle.active{color:#085041}
+.ctitle.done{color:#555}
+.cdesc{font-size:11px;color:#666;line-height:1.45;margin-bottom:6px}
+.cfooter{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.cbtn{font-size:11px;padding:4px 10px;border-radius:6px;cursor:pointer;border:none;font-weight:600}
+.cbtn-p{background:#0F6E56;color:#fff}
+.cbtn-d{background:transparent;color:#A32D2D;border:0.5px solid #F7C1C1;border-radius:6px;font-size:11px;padding:4px 8px;cursor:pointer}
+.cmeta{font-size:10px;color:#aaa}
+.act-wrap{background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;padding:.75rem;margin-bottom:.75rem}
+.act-title{font-size:13px;font-weight:600;color:#222;margin-bottom:.5rem}
+.add-act{width:100%;padding:6px 10px;font-size:12px;border:0.5px solid #ddd;border-radius:6px;background:#f7f6f2;color:#888;margin-bottom:.5rem;outline:none}
+.aitem{display:flex;gap:8px;padding:6px 8px;border-radius:6px;background:#f7f6f2;margin-bottom:4px;align-items:flex-start}
+.aic{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.ai-b{background:#E6F1FB;color:#0C447C}
+.ai-t{background:#E1F5EE;color:#085041}
+.ai-g{background:#EAF3DE;color:#27500A}
+.ai-s{background:#F1EFE8;color:#555}
+.atx{font-size:11px;color:#333;line-height:1.4}
+.amt{font-size:10px;color:#aaa;margin-top:1px}
+.details-wrap{background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;overflow:hidden}
+.details-toggle{width:100%;background:none;border:none;padding:.65rem .75rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:13px;font-weight:600;color:#222;text-align:left}
+.details-toggle:hover{background:#f7f6f2}
+.toggle-arrow{font-size:11px;color:#888;transition:transform .2s}
+.toggle-arrow.open{transform:rotate(180deg)}
+.details-body{display:none;border-top:0.5px solid #e0ddd6}
+.details-body.open{display:block}
+.det-section{padding:.6rem .75rem;border-bottom:0.5px solid #f0ede8}
+.det-section:last-child{border-bottom:none}
+.det-section-title{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.5rem}
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px}
+.det-label{font-size:11px;color:#888}
+.det-val{font-size:12px;color:#222;font-weight:500}
+.bill-card{background:#f7f6f2;border-radius:6px;padding:.5rem .6rem;margin-bottom:6px}
+.bill-title{font-size:12px;font-weight:600;color:#222;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.bill-amount{font-size:12px;font-weight:600;color:#0F6E56}
+.bill-row{display:flex;justify-content:space-between;font-size:11px;color:#666;margin-bottom:2px}
+.view-link{font-size:11px;color:#185FA5;cursor:pointer;text-decoration:none}
+.result-row{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;border-bottom:0.5px solid #f0ede8}
+.result-row:last-child{border-bottom:none}
+.result-type{flex:1;color:#333}
+.result-amt{font-weight:600;color:#222;min-width:60px;text-align:right}
+.result-badge{font-size:10px;padding:2px 6px;border-radius:4px}
+.rb-approved{background:#EAF3DE;color:#27500A}
+.rb-denied{background:#FCEBEB;color:#A32D2D}
+.flag-box{background:#FAEEDA;border:0.5px solid #FAC775;border-radius:6px;padding:.4rem .6rem;font-size:11px;color:#633806;margin-top:4px}
+</style>
+
+<div class="topbar">
+  <span style="font-size:11px;color:#888;margin-right:4px">Scenario:</span>
+  <button class="sc-btn" onclick="s(0)">Unassigned</button>
+  <button class="sc-btn on" onclick="s(1)">Campus review</button>
+  <button class="sc-btn" onclick="s(2)">CEN Community</button>
+  <button class="sc-btn" onclick="s(3)">AP processing</button>
+  <button class="sc-btn" onclick="s(4)">Completed</button>
+</div>
+
+<div class="layout">
+  <div class="left">
+    <div class="connector-block">
+      <div class="conn-label">Connector</div>
+      <div class="av-row">
+        <div class="av av-blue">FE</div>
+        <span class="conn-name">Frank Estevez</span>
+      </div>
+      <div class="badge-row">
+        <span class="lbadge">Northwest OKC</span>
+        <span class="lbadge teal">Benevolence</span>
+        <span class="lbadge blue" id="left-status">Campus Review</span>
+      </div>
+    </div>
+    <div class="person-img">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="13" fill="#8aaec8"/><ellipse cx="30" cy="52" rx="20" ry="12" fill="#8aaec8"/></svg>
+    </div>
+    <div class="person-info">
+      <div class="person-name">Jim Hamilton</div>
+      <a class="plink">View profile</a>
+      <span style="font-size:11px;color:#888;margin-top:2px;display:block">Attendee</span>
+      <span class="pcontact">(213) 555-1212</span>
+      <span class="pmuted">Mobile</span>
+      <span class="pcontact">daddyestevez+865@gmail.com</span>
+      <div style="font-size:11px;color:#555;margin-top:6px;line-height:1.4">505 West 135th Street<br>New York, NY 10031</div>
+    </div>
+    <div class="left-sect">
+      <div class="ls-title">Assigned to</div>
+      <div class="av-row" style="margin-bottom:0">
+        <div class="av av-blue" style="width:22px;height:22px;font-size:9px">FE</div>
+        <div class="ls-val" style="font-size:12px">Frank Estevez</div>
+      </div>
+    </div>
+    <div class="left-sect">
+      <div class="ls-title">Request date</div>
+      <div class="ls-val">2/2/2026</div>
+      <div class="ls-sub">66 days ago</div>
+    </div>
+    <div class="left-sect">
+      <div class="ls-title">12-month history</div>
+      <div class="ls-val">$500.00 received</div>
+      <div class="ls-sub">1 prior request</div>
+    </div>
+    <div class="left-sect">
+      <div class="ls-title">Bills requested</div>
+      <div style="font-size:12px;color:#333;line-height:1.6">Rent/Mortgage — $500<br>Electric — $100<br>Gas — $100<br>Water — $100<br>Other — $200</div>
+      <div style="font-size:11px;font-weight:600;color:#0F6E56;margin-top:4px">Total: $1,000.00</div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="kanban">
+      <div>
+        <div class="col-hdr"><span class="col-bar" style="background:#185FA5"></span>Request approval</div>
+        <div class="scard active" id="c-r">
+          <div class="ctitle active" id="t-r">Campus review</div>
+          <div class="cdesc" id="d-r">Review submitted bills, approve or deny each item, and confirm vendor info.</div>
+          <div class="cfooter"><div id="a-r"><button class="cbtn cbtn-p">Review &amp; complete</button><button class="cbtn-d">Deny</button></div><span class="cmeta">Step 1</span></div>
+        </div>
+        <div class="scard locked" id="c-c">
+          <div class="ctitle" id="t-c">CEN Community review</div>
+          <div class="cdesc" id="d-c">Central reviews approvals and forwards to Accounts Payable.</div>
+          <div class="cfooter"><div id="a-c"></div><span class="cmeta">Step 2</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="col-hdr"><span class="col-bar" style="background:#BA7517"></span>Payment</div>
+        <div class="scard locked" id="c-a">
+          <div class="ctitle" id="t-a">AP processing</div>
+          <div class="cdesc" id="d-a">AP processes payment in Ramp. Mark complete once checks sent.</div>
+          <div class="cfooter"><div id="a-a"></div><span class="cmeta">Step 3</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="col-hdr"><span class="col-bar" style="background:#1D9E75"></span>Complete</div>
+        <div class="scard locked" id="c-f">
+          <div class="ctitle" id="t-f">Final follow-up</div>
+          <div class="cdesc" id="d-f">Confirm payment received and applied to applicant's account.</div>
+          <div class="cfooter"><div id="a-f"></div><span class="cmeta">Step 4</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="act-wrap">
+      <div class="act-title">Activities</div>
+      <input class="add-act" placeholder="Add an activity..." readonly />
+      <div id="log"></div>
+    </div>
+
+    <div class="details-wrap">
+      <button class="details-toggle" onclick="toggleDetails()">
+        <span>Request details</span>
+        <span class="toggle-arrow" id="toggle-arrow">&#9660;</span>
+      </button>
+      <div class="details-body" id="details-body">
+
+        <div class="det-section">
+          <div class="det-section-title">Bills requested</div>
+          <div class="bill-card">
+            <div class="bill-title">Rent/Mortgage <span class="bill-amount">$500.00</span></div>
+            <div class="bill-row"><span>Landlord</span><span>(405) 111-2222</span></div>
+            <div class="bill-row"><span>Name on bill: My Name</span><a class="view-link">View bill</a></div>
+            <div class="bill-row"><span>Rush payment: 2/15/2026</span><a class="view-link">View W-9</a></div>
+            <div class="flag-box">W-9 required — rent payment</div>
+          </div>
+          <div class="bill-card">
+            <div class="bill-title">Electric <span class="bill-amount">$100.00</span></div>
+            <div class="bill-row"><span>Electric Co</span><span>(405) 222-3333</span></div>
+            <div class="bill-row"><span>Name on bill: My Name</span><a class="view-link">View bill</a></div>
+          </div>
+          <div class="bill-card">
+            <div class="bill-title">Gas <span class="bill-amount">$100.00</span></div>
+            <div class="bill-row"><span>Gas Company</span><span>(405) 333-4444</span></div>
+            <div class="bill-row"><span>Name on bill: My Name</span><a class="view-link">View bill</a></div>
+          </div>
+          <div class="bill-card">
+            <div class="bill-title">Water <span class="bill-amount">$100.00</span></div>
+            <div class="bill-row"><span>Water Company</span><span>(405) 444-5555</span></div>
+            <div class="bill-row"><span>Name on bill: My Name</span><a class="view-link">View bill</a></div>
+          </div>
+          <div class="bill-card">
+            <div class="bill-title">Other <span class="bill-amount">$200.00</span></div>
+            <div class="bill-row"><span>Other Company</span><span>(405) 555-6666</span></div>
+            <div class="bill-row"><span>Name on bill: My Name</span><a class="view-link">View bill</a></div>
+            <div class="flag-box">W-9 required — counseling payment</div>
+          </div>
+        </div>
+
+        <div class="det-section">
+          <div class="det-section-title">Applicant background</div>
+          <div class="det-grid">
+            <div><div class="det-label">Connected with pastor?</div><div class="det-val">No</div></div>
+            <div><div class="det-label">Attending Life.Church?</div><div class="det-val">Yes</div></div>
+            <div><div class="det-label">In a LifeGroup?</div><div class="det-val">Yes</div></div>
+            <div><div class="det-label">LifeGroup leader aware?</div><div class="det-val">No</div></div>
+            <div><div class="det-label">Currently employed?</div><div class="det-val">No</div></div>
+            <div><div class="det-label">Contractor for LC?</div><div class="det-val">Yes</div></div>
+          </div>
+          <div style="margin-top:6px"><div class="det-label">Steps toward employment</div><div class="det-val" style="font-weight:400;font-size:11px;margin-top:1px">Working with a recruiter</div></div>
+          <div style="margin-top:4px"><div class="det-label">Prior financial assistance from LC?</div><div class="det-val" style="font-weight:400;font-size:11px;margin-top:1px">Yes — $500.00 received</div></div>
+          <div style="margin-top:4px"><div class="det-label">Other assistance sources</div><div class="det-val" style="font-weight:400;font-size:11px;margin-top:1px">None</div></div>
+          <div class="flag-box" style="margin-top:6px">CEN approval required — exceeds $1,300 or Other selected &bull; <a class="view-link">View approval email</a></div>
+        </div>
+
+        <div class="det-section">
+          <div class="det-section-title">Financial situation</div>
+          <div style="font-size:11px;color:#555;line-height:1.5;margin-bottom:4px"><strong>Challenges:</strong> Challenges</div>
+          <div style="font-size:11px;color:#555;line-height:1.5;margin-bottom:4px"><strong>God moving:</strong> Waiting</div>
+          <div style="font-size:11px;color:#555;line-height:1.5"><strong>Willing to share budget:</strong> Yes</div>
+        </div>
+
+        <div class="det-section">
+          <div class="det-section-title">Documents</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a class="view-link">Application PDF</a>
+            <a class="view-link">Campus Approval PDF</a>
+          </div>
+        </div>
+
+        <div class="det-section" id="ap-section">
+          <div class="det-section-title">AP details</div>
+          <div class="det-grid">
+            <div><div class="det-label">AP completed date</div><div class="det-val">2/6/2026</div></div>
+            <div><div class="det-label">Check sent date</div><div class="det-val">2/9/2026</div></div>
+          </div>
+          <div style="margin-top:4px"><div class="det-label">AP notes</div><div class="det-val" style="font-weight:400;font-size:11px;margin-top:1px">Notes from AP</div></div>
+        </div>
+
+        <div class="det-section">
+          <div class="det-section-title">Summary of results</div>
+          <div class="result-row"><span class="result-type">Rent/Mortgage</span><span class="result-badge rb-approved">Approved</span><span class="result-amt">$500.00</span></div>
+          <div class="result-row"><span class="result-type">Electric</span><span class="result-badge rb-approved">Approved</span><span class="result-amt">$100.00</span></div>
+          <div class="result-row"><span class="result-type">Gas</span><span class="result-badge rb-approved">Approved</span><span class="result-amt">$100.00</span></div>
+          <div class="result-row"><span class="result-type">Water</span><span class="result-badge rb-denied">Denied</span><span class="result-amt">$0.00</span></div>
+          <div class="result-row"><span class="result-type">Other</span><span class="result-badge rb-approved">Approved</span><span class="result-amt">$200.00</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const D=[
+  {st:"Unassigned",sc:"",
+   cards:{r:{s:"active",t:"Campus review",d:"Assign a pastor before review can begin.",a:'<span style="font-size:11px;color:#A32D2D">Assign a pastor to unlock</span>'},c:{s:"locked"},a:{s:"locked"},f:{s:"locked"}},
+   log:[{ic:"JH",cl:"ai-b",tx:"Jim Hamilton submitted financial assistance application",mt:"Feb 2, 2026 · 9:04 AM"},{ic:"SY",cl:"ai-s",tx:"System: not yet assigned to a pastor",mt:"Feb 2, 2026 · 9:05 AM"}]},
+  {st:"Campus Review",sc:"blue",
+   cards:{r:{s:"active",t:"Campus review",d:"Review submitted bills, approve or deny each item, and confirm vendor info.",a:'<button class="cbtn cbtn-p">Review &amp; complete</button><button class="cbtn-d">Deny</button>'},c:{s:"locked",t:"CEN Community review",d:"Waiting for campus review to complete."},a:{s:"locked"},f:{s:"locked"}},
+   log:[{ic:"JH",cl:"ai-b",tx:"Jim Hamilton submitted financial assistance application",mt:"Feb 2, 2026 · 9:04 AM"},{ic:"SY",cl:"ai-s",tx:"System: assigned to Frank Estevez",mt:"Feb 2, 2026 · 9:05 AM"}]},
+  {st:"Pending CEN",sc:"amber",
+   cards:{r:{s:"done",t:"Campus review",d:"Frank Estevez approved 4 of 5 bills. Water denied. Documentation uploaded.",a:'<span style="font-size:10px;color:#27500A">&#10003; Completed Feb 3</span>'},c:{s:"active",t:"CEN Community review",d:"Review campus approvals, download PDF, forward to AP.",a:'<button class="cbtn cbtn-p">Review &amp; send to AP</button><button class="cbtn-d">Return to campus</button>'},a:{s:"locked"},f:{s:"locked"}},
+   log:[{ic:"JH",cl:"ai-b",tx:"Submitted application",mt:"Feb 2 · 9:04 AM"},{ic:"FE",cl:"ai-b",tx:"Step completed: Campus review — 4 bills approved, Water denied",mt:"Feb 3 · 11:15 AM"},{ic:"SY",cl:"ai-s",tx:"System: advanced to Pending CEN Community",mt:"Feb 3 · 11:15 AM"}]},
+  {st:"Pending AP",sc:"amber",
+   cards:{r:{s:"done",t:"Campus review",d:"Approved Feb 3.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 3</span>'},c:{s:"done",t:"CEN Community review",d:"Forwarded to AP Feb 4.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 4</span>'},a:{s:"active",t:"AP processing",d:"AP processing in Ramp. Mark complete once checks confirmed sent.",a:'<button class="cbtn cbtn-p">Mark AP complete</button>'},f:{s:"locked"}},
+   log:[{ic:"FE",cl:"ai-b",tx:"Step completed: Campus review",mt:"Feb 3 · 11:15 AM"},{ic:"CE",cl:"ai-t",tx:"Step completed: CEN review — sent to AP",mt:"Feb 4 · 8:50 AM"},{ic:"SY",cl:"ai-s",tx:"System: advanced to Pending AP",mt:"Feb 4 · 8:50 AM"}]},
+  {st:"Completed",sc:"green",
+   cards:{r:{s:"done",t:"Campus review",d:"Approved Feb 3.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 3</span>'},c:{s:"done",t:"CEN Community review",d:"Forwarded to AP Feb 4.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 4</span>'},a:{s:"done",t:"AP processing",d:"Checks sent to vendors Feb 9.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 9</span>'},f:{s:"done",t:"Final follow-up",d:"Payment confirmed received and applied.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 12</span>'}},
+   log:[{ic:"FE",cl:"ai-b",tx:"Step completed: Campus review",mt:"Feb 3 · 11:15 AM"},{ic:"CE",cl:"ai-t",tx:"Step completed: CEN review",mt:"Feb 4 · 8:50 AM"},{ic:"AP",cl:"ai-g",tx:"Step completed: AP processing — checks sent Feb 9",mt:"Feb 9 · 2:10 PM"},{ic:"FE",cl:"ai-b",tx:"Step completed: Final follow-up — payments confirmed received",mt:"Feb 12 · 10:30 AM"},{ic:"SY",cl:"ai-s",tx:"System: request marked completed",mt:"Feb 12 · 10:30 AM"}]}
+];
+
+function s(i){
+  document.querySelectorAll('.sc-btn').forEach((b,j)=>b.classList.toggle('on',j===i));
+  const d=D[i];
+  const ls=document.getElementById('left-status');
+  ls.textContent=d.st;ls.className='lbadge '+(d.sc||'');
+  ['r','c','a','f'].forEach(k=>{
+    const cfg=d.cards[k];if(!cfg)return;
+    const card=document.getElementById('c-'+k);
+    const title=document.getElementById('t-'+k);
+    const desc=document.getElementById('d-'+k);
+    const act=document.getElementById('a-'+k);
+    card.className='scard '+(cfg.s==='active'?'active':cfg.s==='done'?'done':'locked');
+    title.className='ctitle '+(cfg.s==='active'?'active':cfg.s==='done'?'done':'');
+    if(cfg.t)title.textContent=cfg.t;
+    if(cfg.d)desc.textContent=cfg.d;
+    if(act)act.innerHTML=cfg.a||'';
+  });
+  document.getElementById('log').innerHTML=d.log.map(a=>`<div class="aitem"><div class="aic ${a.cl}">${a.ic}</div><div><div class="atx">${a.tx}</div><div class="amt">${a.mt}</div></div></div>`).join('');
+}
+
+function toggleDetails(){
+  const body=document.getElementById('details-body');
+  const arrow=document.getElementById('toggle-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+s(1);
+</script>
