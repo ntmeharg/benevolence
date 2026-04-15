@@ -43,8 +43,12 @@ body{font-family:var(--font-sans,system-ui,sans-serif);background:#f3f2ee;font-s
 .cfooter{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px}
 .cbtn{font-size:11px;padding:4px 10px;border-radius:6px;cursor:pointer;border:none;font-weight:600}
 .cbtn-p{background:#0F6E56;color:#fff}
-.cbtn-d{background:transparent;color:#A32D2D;border:0.5px solid #F7C1C1;border-radius:6px;font-size:11px;padding:4px 8px;cursor:pointer}
 .cmeta{font-size:10px;color:#aaa}
+.radio-group{display:flex;flex-direction:column;gap:4px}
+.radio-group label{display:flex;align-items:center;gap:5px;font-size:11px;color:#333;cursor:pointer;line-height:1.35}
+.radio-group input[type=radio]{flex-shrink:0}
+.radio-submit{margin-top:5px}
+.confirm-msg{font-size:11px;color:#085041;background:#E1F5EE;border:0.5px solid #9FE1CB;border-radius:6px;padding:5px 8px;line-height:1.4}
 .act-wrap{background:#fff;border:0.5px solid #e0ddd6;border-radius:8px;padding:.75rem;margin-bottom:.75rem}
 .act-title{font-size:13px;font-weight:600;color:#222;margin-bottom:.5rem}
 .add-act{width:100%;padding:6px 10px;font-size:12px;border:0.5px solid #ddd;border-radius:6px;background:#f7f6f2;color:#888;margin-bottom:.5rem;outline:none}
@@ -82,6 +86,7 @@ body{font-family:var(--font-sans,system-ui,sans-serif);background:#f3f2ee;font-s
 .rb-approved{background:#EAF3DE;color:#27500A}
 .rb-denied{background:#FCEBEB;color:#A32D2D}
 .flag-box{background:#FAEEDA;border:0.5px solid #FAC775;border-radius:6px;padding:.4rem .6rem;font-size:11px;color:#633806;margin-top:4px}
+.add-pay-note{font-size:11px;color:#888;font-style:italic;margin-top:4px}
 </style>
 
 <div class="topbar">
@@ -90,7 +95,8 @@ body{font-family:var(--font-sans,system-ui,sans-serif);background:#f3f2ee;font-s
   <button class="sc-btn on" onclick="s(1)">Campus review</button>
   <button class="sc-btn" onclick="s(2)">CEN Community</button>
   <button class="sc-btn" onclick="s(3)">AP processing</button>
-  <button class="sc-btn" onclick="s(4)">Completed</button>
+  <button class="sc-btn" onclick="s(4)">Final follow-up</button>
+  <button class="sc-btn" onclick="s(5)">Completed</button>
 </div>
 
 <div class="layout">
@@ -138,7 +144,7 @@ body{font-family:var(--font-sans,system-ui,sans-serif);background:#f3f2ee;font-s
     </div>
     <div class="left-sect">
       <div class="ls-title">Bills requested</div>
-      <div style="font-size:12px;color:#333;line-height:1.6">Rent/Mortgage — $500<br>Electric — $100<br>Gas — $100<br>Water — $100<br>Other — $200</div>
+      <div style="font-size:12px;color:#333;line-height:1.6">Rent — $500<br>Mortgage — $500<br>Electric — $100<br>Gas — $100<br>Water — $100<br>Other — $200</div>
       <div style="font-size:11px;font-weight:600;color:#0F6E56;margin-top:4px">Total: $1,000.00</div>
     </div>
   </div>
@@ -150,7 +156,7 @@ body{font-family:var(--font-sans,system-ui,sans-serif);background:#f3f2ee;font-s
         <div class="scard active" id="c-r">
           <div class="ctitle active" id="t-r">Campus review</div>
           <div class="cdesc" id="d-r">Review submitted bills, approve or deny each item, and confirm vendor info.</div>
-          <div class="cfooter"><div id="a-r"><button class="cbtn cbtn-p">Review &amp; complete</button><button class="cbtn-d">Deny</button></div><span class="cmeta">Step 1</span></div>
+          <div class="cfooter"><div id="a-r"><button class="cbtn cbtn-p" onclick="confirmAction('r','Done — CEN Community has been notified and will review next.')">Review &amp; complete</button></div><span class="cmeta">Step 1</span></div>
         </div>
         <div class="scard locked" id="c-c">
           <div class="ctitle" id="t-c">CEN Community review</div>
@@ -192,11 +198,16 @@ body{font-family:var(--font-sans,system-ui,sans-serif);background:#f3f2ee;font-s
         <div class="det-section">
           <div class="det-section-title">Bills requested</div>
           <div class="bill-card">
-            <div class="bill-title">Rent/Mortgage <span class="bill-amount">$500.00</span></div>
+            <div class="bill-title">Rent <span class="bill-amount">$500.00</span></div>
             <div class="bill-row"><span>Landlord</span><span>(405) 111-2222</span></div>
             <div class="bill-row"><span>Name on bill: My Name</span><a class="view-link">View bill</a></div>
-            <div class="bill-row"><span>Rush payment: 2/15/2026</span><a class="view-link">View W-9</a></div>
+            <div class="bill-row"><span></span><a class="view-link">View W-9</a></div>
             <div class="flag-box">W-9 required — rent payment</div>
+          </div>
+          <div class="bill-card">
+            <div class="bill-title">Mortgage <span class="bill-amount">$500.00</span></div>
+            <div class="bill-row"><span>Mortgage Lender</span><span>(405) 111-3333</span></div>
+            <div class="bill-row"><span>Name on bill: My Name</span><a class="view-link">View bill</a></div>
           </div>
           <div class="bill-card">
             <div class="bill-title">Electric <span class="bill-amount">$100.00</span></div>
@@ -218,6 +229,10 @@ body{font-family:var(--font-sans,system-ui,sans-serif);background:#f3f2ee;font-s
             <div class="bill-row"><span>Other Company</span><span>(405) 555-6666</span></div>
             <div class="bill-row"><span>Name on bill: My Name</span><a class="view-link">View bill</a></div>
             <div class="flag-box">W-9 required — counseling payment</div>
+          </div>
+          <div style="margin-top:8px">
+            <div class="det-label" style="margin-bottom:3px">Additional Payment Information</div>
+            <div class="add-pay-note">Let us know if this is an urgent request, if there is specific information needed for the check memo line, etc.</div>
           </div>
         </div>
 
@@ -263,7 +278,8 @@ body{font-family:var(--font-sans,system-ui,sans-serif);background:#f3f2ee;font-s
 
         <div class="det-section">
           <div class="det-section-title">Summary of results</div>
-          <div class="result-row"><span class="result-type">Rent/Mortgage</span><span class="result-badge rb-approved">Approved</span><span class="result-amt">$500.00</span></div>
+          <div class="result-row"><span class="result-type">Rent</span><span class="result-badge rb-approved">Approved</span><span class="result-amt">$500.00</span></div>
+          <div class="result-row"><span class="result-type">Mortgage</span><span class="result-badge rb-approved">Approved</span><span class="result-amt">$500.00</span></div>
           <div class="result-row"><span class="result-type">Electric</span><span class="result-badge rb-approved">Approved</span><span class="result-amt">$100.00</span></div>
           <div class="result-row"><span class="result-type">Gas</span><span class="result-badge rb-approved">Approved</span><span class="result-amt">$100.00</span></div>
           <div class="result-row"><span class="result-type">Water</span><span class="result-badge rb-denied">Denied</span><span class="result-amt">$0.00</span></div>
@@ -276,20 +292,37 @@ body{font-family:var(--font-sans,system-ui,sans-serif);background:#f3f2ee;font-s
 </div>
 
 <script>
+// Reusable radio group HTML builders
+function cenRadios(){
+  return '<div class="radio-group"><label><input type="radio" name="cen-act" value="approve"> Approve and send to AP</label><label><input type="radio" name="cen-act" value="followup"> Send follow-up question(s) to campus</label><button class="cbtn cbtn-p radio-submit" onclick="submitCEN()">Submit</button></div>';
+}
+function apRadios(){
+  return '<div class="radio-group"><label><input type="radio" name="ap-act" value="paid"> Mark request paid and notify campus</label><label><input type="radio" name="ap-act" value="followup"> Send follow-up questions to CEN Community</label><button class="cbtn cbtn-p radio-submit" onclick="submitAP()">Submit</button></div>';
+}
+
 const D=[
-  {st:"Unassigned",sc:"",
+  // 0: Unassigned
+  {st:"Unassigned",sc:"",apVisible:false,
    cards:{r:{s:"active",t:"Campus review",d:"Assign a pastor before review can begin.",a:'<span style="font-size:11px;color:#A32D2D">Assign a pastor to unlock</span>'},c:{s:"locked"},a:{s:"locked"},f:{s:"locked"}},
    log:[{ic:"JH",cl:"ai-b",tx:"Jim Hamilton submitted financial assistance application",mt:"Feb 2, 2026 · 9:04 AM"},{ic:"SY",cl:"ai-s",tx:"System: not yet assigned to a pastor",mt:"Feb 2, 2026 · 9:05 AM"}]},
-  {st:"Campus Review",sc:"blue",
-   cards:{r:{s:"active",t:"Campus review",d:"Review submitted bills, approve or deny each item, and confirm vendor info.",a:'<button class="cbtn cbtn-p">Review &amp; complete</button><button class="cbtn-d">Deny</button>'},c:{s:"locked",t:"CEN Community review",d:"Waiting for campus review to complete."},a:{s:"locked"},f:{s:"locked"}},
+  // 1: Campus Review
+  {st:"Campus Review",sc:"blue",apVisible:false,
+   cards:{r:{s:"active",t:"Campus review",d:"Review submitted bills, approve or deny each item, and confirm vendor info.",a:'<button class="cbtn cbtn-p" onclick="confirmAction(\'r\',\'Done \u2014 CEN Community has been notified and will review next.\')">Review &amp; complete</button>'},c:{s:"locked",t:"CEN Community review",d:"Waiting for campus review to complete."},a:{s:"locked"},f:{s:"locked"}},
    log:[{ic:"JH",cl:"ai-b",tx:"Jim Hamilton submitted financial assistance application",mt:"Feb 2, 2026 · 9:04 AM"},{ic:"SY",cl:"ai-s",tx:"System: assigned to Frank Estevez",mt:"Feb 2, 2026 · 9:05 AM"}]},
-  {st:"Pending CEN",sc:"amber",
-   cards:{r:{s:"done",t:"Campus review",d:"Frank Estevez approved 4 of 5 bills. Water denied. Documentation uploaded.",a:'<span style="font-size:10px;color:#27500A">&#10003; Completed Feb 3</span>'},c:{s:"active",t:"CEN Community review",d:"Review campus approvals, download PDF, forward to AP.",a:'<button class="cbtn cbtn-p">Review &amp; send to AP</button><button class="cbtn-d">Return to campus</button>'},a:{s:"locked"},f:{s:"locked"}},
+  // 2: CEN Community
+  {st:"Pending CEN",sc:"amber",apVisible:false,
+   cards:{r:{s:"done",t:"Campus review",d:"Frank Estevez approved 4 of 5 bills. Water denied. Documentation uploaded.",a:'<span style="font-size:10px;color:#27500A">&#10003; Completed Feb 3</span>'},c:{s:"active",t:"CEN Community review",d:"Review campus approvals, download PDF, forward to AP.",a:null},a:{s:"locked"},f:{s:"locked"}},
    log:[{ic:"JH",cl:"ai-b",tx:"Submitted application",mt:"Feb 2 · 9:04 AM"},{ic:"FE",cl:"ai-b",tx:"Step completed: Campus review — 4 bills approved, Water denied",mt:"Feb 3 · 11:15 AM"},{ic:"SY",cl:"ai-s",tx:"System: advanced to Pending CEN Community",mt:"Feb 3 · 11:15 AM"}]},
-  {st:"Pending AP",sc:"amber",
-   cards:{r:{s:"done",t:"Campus review",d:"Approved Feb 3.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 3</span>'},c:{s:"done",t:"CEN Community review",d:"Forwarded to AP Feb 4.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 4</span>'},a:{s:"active",t:"AP processing",d:"AP processing in Ramp. Mark complete once checks confirmed sent.",a:'<button class="cbtn cbtn-p">Mark AP complete</button>'},f:{s:"locked"}},
+  // 3: AP processing
+  {st:"Pending AP",sc:"amber",apVisible:true,
+   cards:{r:{s:"done",t:"Campus review",d:"Approved Feb 3.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 3</span>'},c:{s:"done",t:"CEN Community review",d:"Forwarded to AP Feb 4.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 4</span>'},a:{s:"active",t:"AP processing",d:"AP processing in Ramp. Mark complete once checks confirmed sent.",a:null},f:{s:"locked"}},
    log:[{ic:"FE",cl:"ai-b",tx:"Step completed: Campus review",mt:"Feb 3 · 11:15 AM"},{ic:"CE",cl:"ai-t",tx:"Step completed: CEN review — sent to AP",mt:"Feb 4 · 8:50 AM"},{ic:"SY",cl:"ai-s",tx:"System: advanced to Pending AP",mt:"Feb 4 · 8:50 AM"}]},
-  {st:"Completed",sc:"green",
+  // 4: Final follow-up (active)
+  {st:"Final Follow-up",sc:"amber",apVisible:true,
+   cards:{r:{s:"done",t:"Campus review",d:"Approved Feb 3.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 3</span>'},c:{s:"done",t:"CEN Community review",d:"Forwarded to AP Feb 4.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 4</span>'},a:{s:"done",t:"AP processing",d:"Checks sent to vendors Feb 9.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 9</span>'},f:{s:"active",t:"Final follow-up",d:"Confirm payment received and applied to applicant's account.",a:'<button class="cbtn cbtn-p" onclick="confirmAction(\'f\',\'Done \u2014 Request marked as completed.\')">Mark completed</button>'}},
+   log:[{ic:"FE",cl:"ai-b",tx:"Step completed: Campus review",mt:"Feb 3 · 11:15 AM"},{ic:"CE",cl:"ai-t",tx:"Step completed: CEN review — sent to AP",mt:"Feb 4 · 8:50 AM"},{ic:"AP",cl:"ai-g",tx:"Step completed: AP processing — checks sent Feb 9",mt:"Feb 9 · 2:10 PM"}]},
+  // 5: Completed
+  {st:"Completed",sc:"green",apVisible:true,
    cards:{r:{s:"done",t:"Campus review",d:"Approved Feb 3.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 3</span>'},c:{s:"done",t:"CEN Community review",d:"Forwarded to AP Feb 4.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 4</span>'},a:{s:"done",t:"AP processing",d:"Checks sent to vendors Feb 9.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 9</span>'},f:{s:"done",t:"Final follow-up",d:"Payment confirmed received and applied.",a:'<span style="font-size:10px;color:#27500A">&#10003; Feb 12</span>'}},
    log:[{ic:"FE",cl:"ai-b",tx:"Step completed: Campus review",mt:"Feb 3 · 11:15 AM"},{ic:"CE",cl:"ai-t",tx:"Step completed: CEN review",mt:"Feb 4 · 8:50 AM"},{ic:"AP",cl:"ai-g",tx:"Step completed: AP processing — checks sent Feb 9",mt:"Feb 9 · 2:10 PM"},{ic:"FE",cl:"ai-b",tx:"Step completed: Final follow-up — payments confirmed received",mt:"Feb 12 · 10:30 AM"},{ic:"SY",cl:"ai-s",tx:"System: request marked completed",mt:"Feb 12 · 10:30 AM"}]}
 ];
@@ -309,9 +342,41 @@ function s(i){
     title.className='ctitle '+(cfg.s==='active'?'active':cfg.s==='done'?'done':'');
     if(cfg.t)title.textContent=cfg.t;
     if(cfg.d)desc.textContent=cfg.d;
-    if(act)act.innerHTML=cfg.a||'';
+    if(act){
+      if(cfg.a===null){
+        // Render dynamic radio groups based on card key
+        act.innerHTML=(k==='c')?cenRadios():(k==='a')?apRadios():'';
+      } else {
+        act.innerHTML=cfg.a||'';
+      }
+    }
   });
   document.getElementById('log').innerHTML=d.log.map(a=>`<div class="aitem"><div class="aic ${a.cl}">${a.ic}</div><div><div class="atx">${a.tx}</div><div class="amt">${a.mt}</div></div></div>`).join('');
+  // AP details visibility: only show in AP processing (3) and Completed (5)
+  const apSec=document.getElementById('ap-section');
+  apSec.style.display=d.apVisible?'':'none';
+}
+
+function confirmAction(id, msg){
+  document.getElementById('a-'+id).innerHTML='<div class="confirm-msg">'+msg+'</div>';
+}
+
+function submitCEN(){
+  const sel=document.querySelector('input[name="cen-act"]:checked');
+  if(!sel){alert('Please select an option.');return;}
+  const msg=sel.value==='approve'
+    ?'Done \u2014 Request sent to AP for processing.'
+    :'Done \u2014 Follow-up questions sent to campus.';
+  confirmAction('c',msg);
+}
+
+function submitAP(){
+  const sel=document.querySelector('input[name="ap-act"]:checked');
+  if(!sel){alert('Please select an option.');return;}
+  const msg=sel.value==='paid'
+    ?'Done \u2014 Campus has been notified. Request is complete.'
+    :'Done \u2014 Follow-up questions sent to CEN Community.';
+  confirmAction('a',msg);
 }
 
 function toggleDetails(){
